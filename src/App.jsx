@@ -1,84 +1,38 @@
+import { Component } from "react";
 
-import React,{useEffect,useState} from 'react';
-import './App.css';
-
-// Do not change this
-const LARGE_NUMBER = 1000000000;
-
-function App() {
-
-
-  const [value, setValue] = useState(0);
-  const [dark, setTheme] = useState(true);
-  const [themeName, setThemeName] = useState("dark");
-  const [currentList, setList] = useState([]);
-
-
-  // should not change the LOGIC inside this function - you can make changes to the function but logic should NOT change
-  const delayFunction = ()=> {
-    console.log("Delay Function Ran")
-    for(let index=0; index<LARGE_NUMBER; index++){};
-    return value+2;
-  
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: "",
+    };
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  // should not change the LOGIC inside this function - you can make changes to the function but logic should NOT change
-  const testFunction = ()=>{
-    return [value*3 ,value*4]
-  }
-
-  
-
-  // should not change this
-  useEffect(()=>{
-    console.log("Callback Function was called")
-  },[testFunction])
-
-
-
-  useEffect(()=>{
-    if(dark){
-      setThemeName("dark")
-    }
-    else{
-      setThemeName("light")
-    }
-  },[dark])
-
-
-  const handleClick = ()=>{
-    setTheme(!dark);
-  }
-
-  const handleChangeValue = ()=>{
-    setValue(value+1);
-  }
-
-  const handleList = ()=>{
-    setList(testFunction);
-  }
-
-  const styleTheme = {
-   backgroundColor:dark ? "black":"#ccc7c7",
-  }
-
-  return (
-    
-    <div className="page" style={styleTheme}>
-      <button onClick={handleClick}>{themeName}</button>
-      <h1 >{value}</h1>
-      <button onClick={handleChangeValue}>Change Value</button>
-      <button onClick={handleList}>Show List</button>
-      <h2>{delayFunction()}</h2>
+  handleChange = (event) => {
+    this.setState({ value: event.target.value });
+  };
+  render() {
+    return (
       <div>
-        {currentList.map((item,index)=>{
-          return <h2 key={index}>{item}</h2>
-        })}
+        <header>
+          <h1>Kalvium Note Keeping App</h1>
+        </header>
 
+        <div>
+          <div onSubmit={this.handleSubmit}>
+            <h3>Input</h3>
+            <textarea onChange={this.hanldeChange} />
+          </div>
+
+          <div>
+            <h3>Pro Note</h3>
+            <div>
+              <div>{this.state.value}</div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    
-  );
+    );
+  }
 }
-
-export default App;
